@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Alerts - Livestock Health Monitor</title>
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/farmer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="farmer-app">
+        <!-- Header -->
+        <header class="farmer-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <span class="header-logo"><i class="fas fa-exclamation-triangle"></i></span>
+                    <span class="header-title">All Alerts</span>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-icon logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="farmer-main">
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="alert">Critical</button>
+                <button class="filter-tab" data-filter="warning">Warning</button>
+                <button class="filter-tab" data-filter="resolved">Resolved</button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search alerts..." id="alertSearch">
+            </div>
+
+            <!-- Alerts List -->
+            <section class="alert-list" id="allAlertsList">
+                <!-- Alert 1 - Critical -->
+                <div class="alert-card" data-status="alert">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">High Temperature Alert</div>
+                            <div class="alert-description">COW-003 temperature is 40.5°C - significantly above normal range</div>
+                        </div>
+                    </div>
+                    <div class="alert-meta">
+                        <span><i class="fas fa-clock"></i> 15 minutes ago</span>
+                        <span class="sms-sent"><i class="fas fa-check-circle"></i> SMS Sent</span>
+                    </div>
+                </div>
+
+                <!-- Alert 2 - Warning -->
+                <div class="alert-card warning" data-status="warning">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Low Activity Detected</div>
+                            <div class="alert-description">COW-001 showing reduced movement for the past 6 hours</div>
+                        </div>
+                    </div>
+                    <div class="alert-meta">
+                        <span><i class="fas fa-clock"></i> 2 hours ago</span>
+                        <span class="sms-sent"><i class="fas fa-check-circle"></i> SMS Sent</span>
+                    </div>
+                </div>
+
+                <!-- Alert 3 - Warning -->
+                <div class="alert-card warning" data-status="warning">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Rumination Pattern Change</div>
+                            <div class="alert-description">GOAT-005 showing irregular rumination patterns</div>
+                        </div>
+                    </div>
+                    <div class="alert-meta">
+                        <span><i class="fas fa-clock"></i> 4 hours ago</span>
+                        <span><i class="fas fa-envelope"></i> SMS Pending</span>
+                    </div>
+                </div>
+
+                <!-- Alert 4 - Resolved -->
+                <div class="alert-card resolved" data-status="resolved" style="opacity: 0.7; border-left-color: var(--status-normal);">
+                    <div class="alert-header">
+                        <div class="alert-icon" style="background-color: rgba(76, 175, 80, 0.1); color: var(--status-normal);">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Temperature Normalized</div>
+                            <div class="alert-description">COW-007 temperature returned to normal range</div>
+                        </div>
+                    </div>
+                    <div class="alert-meta">
+                        <span><i class="fas fa-clock"></i> Yesterday</span>
+                        <span class="sms-sent"><i class="fas fa-check-double"></i> Resolved</span>
+                    </div>
+                </div>
+
+                <!-- Alert 5 -->
+                <div class="alert-card" data-status="alert">
+                    <div class="alert-header">
+                        <div class="alert-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Health Check Required</div>
+                            <div class="alert-description">SHEEP-012 multiple indicators suggest health check needed</div>
+                        </div>
+                    </div>
+                    <div class="alert-meta">
+                        <span><i class="fas fa-clock"></i> Yesterday</span>
+                        <span class="sms-sent"><i class="fas fa-check-circle"></i> SMS Sent</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Load More Button -->
+            <button class="btn btn-outline" style="width: 100%; margin-top: var(--spacing-md);">
+                <i class="fas fa-chevron-down"></i>
+                Load More
+            </button>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-items">
+                <a href="farmer-dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="farmer-livestock.html" class="nav-item">
+                    <i class="fas fa-cow"></i>
+                    <span>Livestock</span>
+                </a>
+                <a href="farmer-alerts.html" class="nav-item active">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Alerts</span>
+                </a>
+                <a href="farmer-settings.html" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/farmer-alerts.js"></script>
+</body>
+</html>
