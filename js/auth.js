@@ -5,7 +5,7 @@
 
 // Demo credentials
 const DEMO_USERS = {
-    farmer: { username: 'farmer', password: 'farmer123', role: 'farmer', name: 'John Kebede' },
+    farmer: { username: 'farmer', password: 'farmer123', role: 'farmer', name: 'Nassor Nassor' },
     ministry: { username: 'ministry', password: 'ministry123', role: 'ministry', name: 'Ministry Official' }
 };
 
@@ -16,7 +16,12 @@ function checkAuth() {
         window.location.href = 'index.html';
         return null;
     }
-    return JSON.parse(user);
+    const parsedUser = JSON.parse(user);
+    if (parsedUser.role === 'farmer' && parsedUser.name !== DEMO_USERS.farmer.name) {
+        parsedUser.name = DEMO_USERS.farmer.name;
+        sessionStorage.setItem('user', JSON.stringify(parsedUser));
+    }
+    return parsedUser;
 }
 
 // Check if user has required role
