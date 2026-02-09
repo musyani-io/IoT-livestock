@@ -13,11 +13,8 @@
 // Alert thresholds
 #define BODY_TEMP_ALERT 39.5
 #define ACTIVITY_LOW_PCT 20
-#define HRP_LOW_BPM 15
-#define HRP_HIGH_BPM 85
-#define THI_STRESS_ALERT 72.0
-#define THI_NORMAL_MAX 72.0
-#define THI_MILD_MAX 78.0
+#define HRP_LOW_BPM 45
+#define HRP_HIGH_BPM 120
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -29,29 +26,12 @@ float readLm35C() {
 
 int readActivityPercent() {
   int raw = analogRead(ACTIVITY_PIN);
-  
-  //Max analogRead value is 5, mapping it to 0-100% with a dead zone around the center
-  int percentRaw = (raw * 100) / 50;
-  return percentRaw;
+  return map(raw, 0, 1023, 0, 100);
 }
 
 int readHeartRateBpm() {
   int raw = analogRead(HRP_PIN);
-  
-  //Max analogRead value is 5, mapping it to 0-100 bpm with a dead zone around the center
-  int bpmRaw = (raw * 100) / 50;
-  return bpmRaw;
-}
-
-float calculateThi(float ambientC, float humidityPct) {
-  // THI for cattle: temp (C) + humidity-driven adjustment via Fahrenheit term
-  float tF = (1.8 * ambientC) + 32.0;
-  return tF - (0.55 - (0.0055 * humidityPct)) * (tF - 58.0);
-}
-
-float calculateTHI(float tempC, float humidity) {
-  return (1.8 * tempC + 32) -
-         ((0.55 - 0.0055 * humidity) * (1.8 * tempC - 26));
+  return map(raw, 0, 1023, 40, 140);
 }
 
 void setup() {
@@ -91,9 +71,7 @@ void loop() {
 
   bool bodyAlert = bodyTemp > BODY_TEMP_ALERT;
   bool activityLow = activityPct < ACTIVITY_LOW_PCT;
-  float thi = calculateThi(ambientTemp, humidity);
   bool hrpAlert = (heartRate < HRP_LOW_BPM || heartRate > HRP_HIGH_BPM);
-  bool thiAlert = thi >= THI_STRESS_ALERT;
 
   static bool showAlt = false;
   char btStr[6];
@@ -107,21 +85,17 @@ void loop() {
 
   if (!showAlt) {
     snprintf(line1, sizeof(line1), "BT:%sC AT:%s", btStr, atStr);
-    snprintf(line2, sizeof(line2), "H:%d%% THI:%d", humidityPct, (int)(thi + 0.5));
+    snprintf(line2, sizeof(line2), "H:%d%% ACT:%d%%", humidityPct, activityPct);
   } else {
     snprintf(line1, sizeof(line1), "HR:%dbpm ACT:%d", heartRate, activityPct);
-    if (thiAlert) {
-      snprintf(line2, sizeof(line2), "STRESS:HEAT");
-    } else {
-      snprintf(line2, sizeof(line2), "STRESS:NORMAL");
-    }
+    snprintf(line2, sizeof(line2), "ALERT:%s", (bodyAlert || activityLow || hrpAlert) ? "YES" : "NO");
   }
   Serial.println(line1);
   Serial.println(line2);
   Serial.println("--");
   showAlt = !showAlt;
 
-  if (bodyAlert || activityLow || hrpAlert || thiAlert) {
+  if (bodyAlert || activityLow || hrpAlert) {
     Serial.print("ALERT: ");
     if (bodyAlert) {
       Serial.print("High body temp ");
@@ -138,18 +112,7 @@ void loop() {
       Serial.print(heartRate);
       Serial.print("bpm ");
     }
-    if (thiAlert) {
-      Serial.print("THI ");
-      Serial.print(thi, 1);
-      Serial.print(" ");
-    }
     Serial.println();
-  }
-
-  if (thiAlert) {
-    Serial.println("STRESS MSG: Heat stress likely. Provide shade/water.");
-  } else {
-    Serial.println("STRESS MSG: No heat stress detected.");
   }
 
   delay(2000);

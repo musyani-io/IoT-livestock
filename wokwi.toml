@@ -1,6 +1,0 @@
-[wokwi]
-version = 1
-firmware = 'livestock-monitor.ino'
-elf = ''
-
-[[net.forward]]
