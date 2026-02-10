@@ -165,8 +165,8 @@ const ALERTS_DATA = [
         id: 1,
         type: 'alert',
         icon: 'fa-exclamation-circle',
-        title: 'High Temperature Alert',
-        description: 'COW-003 temperature is 40.5°C - significantly above normal range',
+        title: 'High body temp',
+        description: 'COW-003 body temp 40.5C',
         time: '15 minutes ago',
         animalId: 'COW-003',
         smsSent: true
@@ -175,8 +175,8 @@ const ALERTS_DATA = [
         id: 2,
         type: 'warning',
         icon: 'fa-exclamation-triangle',
-        title: 'Low Activity Detected',
-        description: 'COW-001 showing reduced movement for the past 6 hours',
+        title: 'Low activity',
+        description: 'COW-001 activity 15%',
         time: '2 hours ago',
         animalId: 'COW-001',
         smsSent: true
@@ -185,10 +185,20 @@ const ALERTS_DATA = [
         id: 3,
         type: 'warning',
         icon: 'fa-exclamation-triangle',
-        title: 'Rumination Pattern Change',
-        description: 'GOAT-002 showing irregular rumination patterns',
+        title: 'Heart rate',
+        description: 'COW-002 heart rate 90bpm',
+        time: '3 hours ago',
+        animalId: 'COW-002',
+        smsSent: false
+    },
+    {
+        id: 4,
+        type: 'warning',
+        icon: 'fa-exclamation-triangle',
+        title: 'THI',
+        description: 'COW-004 THI 78',
         time: '4 hours ago',
-        animalId: 'GOAT-002',
+        animalId: 'COW-004',
         smsSent: false
     },
     {
