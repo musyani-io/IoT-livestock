@@ -152,6 +152,16 @@ const LIVESTOCK_DATA = [
 
 const ALERTS_DATA = [
     {
+        id: 0,
+        type: 'alert',
+        icon: 'fa-temperature-high',
+        title: 'Heat Stress Detected',
+        description: 'COW-002 shows heat stress indicators: 41.1°C and rapid breathing from simulation feed',
+        time: '5 minutes ago',
+        animalId: 'COW-002',
+        smsSent: true
+    },
+    {
         id: 1,
         type: 'alert',
         icon: 'fa-exclamation-circle',
@@ -180,6 +190,16 @@ const ALERTS_DATA = [
         time: '4 hours ago',
         animalId: 'GOAT-002',
         smsSent: false
+    },
+    {
+        id: 4,
+        type: 'resolved',
+        icon: 'fa-check-circle',
+        title: 'Temperature Normalized',
+        description: 'COW-007 temperature returned to normal range',
+        time: 'Yesterday',
+        animalId: 'COW-007',
+        smsSent: true
     }
 ];
 

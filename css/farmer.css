@@ -243,6 +243,11 @@
     border-left-color: var(--status-warning);
 }
 
+.alert-card.resolved {
+    border-left-color: var(--status-normal);
+    opacity: 0.7;
+}
+
 .alert-header {
     display: flex;
     align-items: flex-start;
@@ -265,6 +270,11 @@
 .alert-card.warning .alert-icon {
     background-color: rgba(255, 193, 7, 0.1);
     color: #F57C00;
+}
+
+.alert-card.resolved .alert-icon {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--status-normal);
 }
 
 .alert-content {

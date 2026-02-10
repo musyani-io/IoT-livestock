@@ -16,7 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize page
     initFilters();
     initSearch();
+    renderAlerts('all', '');
 });
+
+let activeFilter = 'all';
+let activeQuery = '';
 
 // Initialize filter tabs
 function initFilters() {
@@ -28,24 +32,61 @@ function initFilters() {
             this.classList.add('active');
             
             const filter = this.dataset.filter;
-            filterAlerts(filter);
+            activeFilter = filter;
+            renderAlerts(activeFilter, activeQuery);
         });
     });
 }
 
-// Filter alerts
-function filterAlerts(filter) {
-    const alerts = document.querySelectorAll('.alert-card');
-    
-    alerts.forEach(alert => {
-        const status = alert.dataset.status;
-        
-        if (filter === 'all' || status === filter) {
-            alert.style.display = 'block';
-        } else {
-            alert.style.display = 'none';
-        }
+// Render alerts list
+function renderAlerts(filter, query) {
+    const container = document.getElementById('allAlertsList');
+    const alerts = filter === 'all' ? ALERTS_DATA : getAlertsByFilter(filter);
+    const normalizedQuery = query.trim().toLowerCase();
+    const filteredAlerts = alerts.filter(alert => {
+        if (!normalizedQuery) return true;
+        const title = alert.title.toLowerCase();
+        const description = alert.description.toLowerCase();
+        return title.includes(normalizedQuery) || description.includes(normalizedQuery);
     });
+
+    if (!filteredAlerts.length) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-search"></i>
+                <p>No alerts match your filter</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = filteredAlerts.map(alert => {
+        const isResolved = alert.type === 'resolved';
+        const cardClass = isResolved ? 'resolved' : alert.type;
+        const metaStatus = isResolved
+            ? '<span class="sms-sent"><i class="fas fa-check-double"></i> Resolved</span>'
+            : alert.smsSent
+                ? '<span class="sms-sent"><i class="fas fa-check-circle"></i> SMS Sent</span>'
+                : '<span><i class="fas fa-envelope"></i> SMS Pending</span>';
+
+        return `
+            <div class="alert-card ${cardClass}" data-status="${alert.type}">
+                <div class="alert-header">
+                    <div class="alert-icon">
+                        <i class="fas ${alert.icon}"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">${alert.title}</div>
+                        <div class="alert-description">${alert.description}</div>
+                    </div>
+                </div>
+                <div class="alert-meta">
+                    <span><i class="fas fa-clock"></i> ${alert.time}</span>
+                    ${metaStatus}
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
 // Initialize search
@@ -53,18 +94,7 @@ function initSearch() {
     const searchInput = document.getElementById('alertSearch');
     
     searchInput.addEventListener('input', function() {
-        const query = this.value.toLowerCase();
-        const alerts = document.querySelectorAll('.alert-card');
-        
-        alerts.forEach(alert => {
-            const title = alert.querySelector('.alert-title').textContent.toLowerCase();
-            const description = alert.querySelector('.alert-description').textContent.toLowerCase();
-            
-            if (title.includes(query) || description.includes(query)) {
-                alert.style.display = 'block';
-            } else {
-                alert.style.display = 'none';
-            }
-        });
+        activeQuery = this.value;
+        renderAlerts(activeFilter, activeQuery);
     });
 }
