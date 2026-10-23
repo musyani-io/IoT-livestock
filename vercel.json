@@ -1,6 +1,0 @@
-{
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/livestock-health-monitor/$1" }
-  ]
-}
