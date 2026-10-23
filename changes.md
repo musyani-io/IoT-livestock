@@ -9,12 +9,19 @@
 Both tiers should have memory, and should consider power consumptions levels. While the worker tag only uses a coin cell (to be confirmed later) and the critical tag LiPo (confirmed later also), the earlier should be able to sit for atleast a year without battery change whilst this should be a full month of work without recharging / put a solar on it if possible.
 Careful on the radiations and also some harmful tech stuffs.
 
+## REFERENCES
+- RumiWatch Noseband
+
 ## FUTURE VERSIONS
 - Some thoughts for future versions:
 1. Herdsman Gateway component (portable for monitoring), contains a BLE, GSM + HMI for message reading and other visual activites (to be specified later)
+2. Extend to wildlife monitoring
 
 ## TO-DO
 - Up until 25/10/2026;
 [ ] Read the research papers well and have the ideas documented
 [ ] Change this to a more explanatory
 [ ] Have an idea on what to present next week 27/10/2026
+
+## QUESTIONS
+- Which diseases are most common & deadly for cattles in Tanzania? (Mastitis one of them)? What about ketosis?
